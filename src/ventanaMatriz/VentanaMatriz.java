@@ -4,6 +4,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -164,41 +166,34 @@ public class VentanaMatriz {
 		btnVerificar.setBounds(310, 249, 89, 23);
 		frame.getContentPane().add(btnVerificar);
 		
-		/*
-		btnVerificar.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mousePressed(MouseEvent e) {
-				int suma = sumarNumerosIngresados(obtenerMatriz(table));
-				if (suma == 5) {
-				JOptionPane.showMessageDialog(null, "Correcto");				
-					} else {
-					JOptionPane.showMessageDialog(null, "Incorrecto");
-					}
+		btnVerificar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (validar(table)) {
+					JOptionPane.showMessageDialog(null, "Todo ok"); //Aparece cuando estan todas las celdas
+				} else {
+					JOptionPane.showMessageDialog(null, "Hay celdas vacias");
 				}
+			}
 		});
-		*/
+		
 	}
 	/*
-	//Temporal
-	private Integer[][] obtenerMatriz(JTable table){ //Tengo que verificar que no sean null ni chars
-        Integer[][] matrix = new Integer[table.getRowCount()][table.getColumnCount()];
-
-        for (int row = 0; row < table.getRowCount(); row++) {
-            for (int col = 0; col < table.getColumnCount(); col++) {
-                matrix[row][col] = table.getValueAt(row, col);
-            }
-        }
-        return matrix;
+	 * Valida que la tabla no tenga celdas nulas (celdas no editadas)
+	 * y celdas vacias luego de editarlas y borrar su valor.
+	 */
+	public boolean validar(JTable table) {
+	    int nroFil = table.getRowCount();
+	    int nroCol= table.getColumnCount();
+	    for (int i = 0; i < nroFil; i++) {
+	        for (int j = 0; j < nroCol; j++) {
+	            Object value = table.getValueAt(i, j);
+	            if (value == null || value.toString().isEmpty()) {
+	                return false;
+	            }
+	        }
+	    }
+	    int numElements = table.getModel().getRowCount() * table.getModel().getColumnCount();
+	    return nroFil > 0 && nroCol > 0 && nroFil * nroCol == numElements;
 	}
-	private int sumarNumerosIngresados(Integer[][] matriz) { //Tengo que verificar que no sean null ni chars
-        int suma = 0;
-//        for (int f = 0; f <matriz.length; f++) {
-        	for (int c = 0; c < matriz[1].length; c++) {
-            	suma += matriz[1][c];
-        	}
-//        }
-        return suma;
-	}
-	*/
 	
 }
