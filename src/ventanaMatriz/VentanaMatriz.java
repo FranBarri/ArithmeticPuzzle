@@ -2,6 +2,7 @@ package ventanaMatriz;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -10,6 +11,10 @@ import javax.swing.JTextField;
 import javax.swing.JScrollPane;
 import javax.swing.JPanel;
 import java.awt.*;
+import java.awt.event.*;
+import java.io.*;
+
+import javax.imageio.ImageIO;
 import javax.swing.JButton;
 
 public class VentanaMatriz {
@@ -59,6 +64,25 @@ public class VentanaMatriz {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
+		inciarInterfaz(); //Su proposito es organizar mejor el codigo
+		
+		//Cargar icono de ventana
+		try {
+		File imagen = new File("C:\\Users\\ftbar\\eclipse-workspace\\trabajo-practico-1-programacion-3\\imagenes\\icono.png");
+		Image icono = ImageIO.read(imagen);
+		frame.setIconImage(icono);
+		} catch (Exception e) {
+			System.out.println("Error cargando imagen: " + e.getMessage());
+		}
+		
+		frame.setTitle("Sudoku Raro!");
+		frame.setLocationRelativeTo(null); //Centra la ventana en pantalla
+		frame.setResizable(false);
+		
+		
+	}
+
+	private void inciarInterfaz() {
 		JLabel lblMatriz = new JLabel("MATRIZ");
 		lblMatriz.setHorizontalAlignment(SwingConstants.CENTER);
 		lblMatriz.setFont(new Font("Tahoma", Font.BOLD, 22));
@@ -66,14 +90,14 @@ public class VentanaMatriz {
 		frame.getContentPane().add(lblMatriz);
 		
 		scrollPane = new JScrollPane();
-		scrollPane.setBounds(127, 43, 188, 161);
+		scrollPane.setBounds(127, 43, 185, 161);
 		frame.getContentPane().add(scrollPane);
 		
 		table = new JTable();
 		table.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		table.setFillsViewportHeight(true);
 		table.setModel(new DefaultTableModel(
-			new Object[][] {
+			new Integer[][] {
 				{null, null, null, null},
 				{null, null, null, null},
 				{null, null, null, null},
@@ -92,6 +116,7 @@ public class VentanaMatriz {
 		    table.getColumnModel().getColumn(i).setPreferredWidth(40);
 		    table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
 		}
+		
 		scrollPane.setColumnHeaderView(table);
 		
 		//Estas son las sumas, el numero puede ser modificado manualmente con labelname.setText("nuevo valor").
@@ -139,5 +164,41 @@ public class VentanaMatriz {
 		btnVerificar.setBounds(310, 249, 89, 23);
 		frame.getContentPane().add(btnVerificar);
 		
+		/*
+		btnVerificar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				int suma = sumarNumerosIngresados(obtenerMatriz(table));
+				if (suma == 5) {
+				JOptionPane.showMessageDialog(null, "Correcto");				
+					} else {
+					JOptionPane.showMessageDialog(null, "Incorrecto");
+					}
+				}
+		});
+		*/
 	}
+	/*
+	//Temporal
+	private Integer[][] obtenerMatriz(JTable table){ //Tengo que verificar que no sean null ni chars
+        Integer[][] matrix = new Integer[table.getRowCount()][table.getColumnCount()];
+
+        for (int row = 0; row < table.getRowCount(); row++) {
+            for (int col = 0; col < table.getColumnCount(); col++) {
+                matrix[row][col] = table.getValueAt(row, col);
+            }
+        }
+        return matrix;
+	}
+	private int sumarNumerosIngresados(Integer[][] matriz) { //Tengo que verificar que no sean null ni chars
+        int suma = 0;
+//        for (int f = 0; f <matriz.length; f++) {
+        	for (int c = 0; c < matriz[1].length; c++) {
+            	suma += matriz[1][c];
+        	}
+//        }
+        return suma;
+	}
+	*/
+	
 }
