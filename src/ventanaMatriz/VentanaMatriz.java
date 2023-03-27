@@ -1,42 +1,22 @@
 package ventanaMatriz;
 
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.SwingConstants;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.JTextField;
-import javax.swing.JScrollPane;
-import javax.swing.JPanel;
+import javax.swing.*;
+import javax.swing.table.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-
+import java.util.*;
 import javax.imageio.ImageIO;
-import javax.swing.JButton;
 
 public class VentanaMatriz {
 
 	private JFrame frame;
 	private JScrollPane scrollPane;
 	private JTable table;
-	private JLabel lblSumaFila1;
-	private JLabel lblSumaFila2;
-	private JLabel lblSumaFila3;
-	private JLabel lblSumaFila4;
-	private JLabel lblSumaCol1;
-	private JLabel lblSumaCol2;
-	private JLabel lblSumaCol3;
-	private JLabel lblSumaCol4;
+	private JLabel[] labelsFilas;
+	private JLabel[] labelsColumnas;
 	private JButton btnVerificar;
-	private ArrayList<Integer> sumasFilas;
-	private ArrayList<Integer> sumasColumnas;
+	private JButton btnSuma;
 
 	/**
 	 * Launch the application.
@@ -123,59 +103,57 @@ public class VentanaMatriz {
 		}
 		
 		scrollPane.setColumnHeaderView(table);
-
+		
+		labelsFilas = new JLabel[4];
+		labelsColumnas = new JLabel[4];
 		//Estas son las sumas, el numero puede ser modificado manualmente con labelname.setText("nuevo valor").
-		lblSumaFila1 = new JLabel("5");
-		lblSumaFila1.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblSumaFila1.setBounds(325, 58, 9, 14);
-		frame.getContentPane().add(lblSumaFila1);
+		labelsFilas[0] = new JLabel("5");
+		labelsFilas[0].setFont(new Font("Tahoma", Font.PLAIN, 16));
+		labelsFilas[0].setBounds(325, 58, 9, 14);
+		frame.getContentPane().add(labelsFilas[0]);
 		
-		lblSumaFila2 = new JLabel("12");
-		lblSumaFila2.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblSumaFila2.setBounds(325, 92, 18, 20);
-		frame.getContentPane().add(lblSumaFila2);
+		labelsFilas[1] = new JLabel("12");
+		labelsFilas[1].setFont(new Font("Tahoma", Font.PLAIN, 16));
+		labelsFilas[1].setBounds(325, 92, 18, 20);
+		frame.getContentPane().add(labelsFilas[1]);
 		
-		lblSumaFila3 = new JLabel("5");
-		lblSumaFila3.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblSumaFila3.setBounds(325, 135, 9, 14);
-		frame.getContentPane().add(lblSumaFila3);
+		labelsFilas[2] = new JLabel("5");
+		labelsFilas[2].setFont(new Font("Tahoma", Font.PLAIN, 16));
+		labelsFilas[2].setBounds(325, 135, 9, 14);
+		frame.getContentPane().add(labelsFilas[2]);
 		
-		lblSumaFila4 = new JLabel("7");
-		lblSumaFila4.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblSumaFila4.setBounds(325, 177, 9, 14);
-		frame.getContentPane().add(lblSumaFila4);
+		labelsFilas[3] = new JLabel("7");
+		labelsFilas[3].setFont(new Font("Tahoma", Font.PLAIN, 16));
+		labelsFilas[3].setBounds(325, 177, 9, 14);
+		frame.getContentPane().add(labelsFilas[3]);
 		
-		lblSumaCol1 = new JLabel("7");
-		lblSumaCol1.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblSumaCol1.setBounds(147, 215, 9, 14);
-		frame.getContentPane().add(lblSumaCol1);
+		labelsColumnas[0] = new JLabel("7");
+		labelsColumnas[0].setFont(new Font("Tahoma", Font.PLAIN, 16));
+		labelsColumnas[0].setBounds(147, 215, 9, 14);
+		frame.getContentPane().add(labelsColumnas[0]);
 		
-		lblSumaCol2 = new JLabel("9");
-		lblSumaCol2.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblSumaCol2.setBounds(190, 215, 9, 14);
-		frame.getContentPane().add(lblSumaCol2);
+		labelsColumnas[1] = new JLabel("9");
+		labelsColumnas[1].setFont(new Font("Tahoma", Font.PLAIN, 16));
+		labelsColumnas[1].setBounds(190, 215, 9, 14);
+		frame.getContentPane().add(labelsColumnas[1]);
 		
-		lblSumaCol3 = new JLabel("9");
-		lblSumaCol3.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblSumaCol3.setBounds(240, 215, 9, 14);
-		frame.getContentPane().add(lblSumaCol3);
+		labelsColumnas[2] = new JLabel("9");
+		labelsColumnas[2].setFont(new Font("Tahoma", Font.PLAIN, 16));
+		labelsColumnas[2].setBounds(240, 215, 9, 14);
+		frame.getContentPane().add(labelsColumnas[2]);
 		
-		lblSumaCol4 = new JLabel("6");
-		lblSumaCol4.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblSumaCol4.setBounds(287, 215, 9, 14);
-		frame.getContentPane().add(lblSumaCol4);
+		labelsColumnas[3] = new JLabel("6");
+		labelsColumnas[3].setFont(new Font("Tahoma", Font.PLAIN, 16));
+		labelsColumnas[3].setBounds(287, 215, 9, 14);
+		frame.getContentPane().add(labelsColumnas[3]);
+		
+		
 		
 		btnVerificar = new JButton("Verificar");
 		btnVerificar.setBounds(310, 249, 89, 23);
 		frame.getContentPane().add(btnVerificar);
 		
-//		sumasFilas = new ArrayList<Integer>(
-//				Integer.parseInt(lblSumaFila1.getText()),
-//				Integer.parseInt(lblSumaFila2.getText()),
-//				Integer.parseInt(lblSumaFila3.getText()),
-//				Integer.parseInt(lblSumaFila4.getText()));
-
-		JButton btnSuma = new JButton("Suma");
+		btnSuma = new JButton("Suma");
 		btnSuma.setBounds(207, 249, 89, 23);
 		frame.getContentPane().add(btnSuma);
 		
@@ -191,14 +169,19 @@ public class VentanaMatriz {
 		
 		btnSuma.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (filaSumaResultado(table, lblSumaFila1, 0) && columnaSumaResultado(table, lblSumaCol1, 0)){
+				boolean verif = true;
+				for (int i = 0; i < table.getRowCount(); i++) {
+					verif = filaSumaResultado(table, labelsFilas, i) && 
+							columnaSumaResultado(table, labelsColumnas, i);
+				}
+				if (verif) {
 					JOptionPane.showMessageDialog(null, "Correcto");
 				} else {
 					JOptionPane.showMessageDialog(null, "Incorrecto");
 				}
 			}
 		});
-		
+
 		
 	}
 	/*
@@ -220,29 +203,52 @@ public class VentanaMatriz {
 	    return nroFil > 0 && nroCol > 0 && nroFil * nroCol == numElements;
 	}
 	
-	public boolean filaSumaResultado(JTable table,JLabel resultado,int fila) {
+	public boolean filaSumaResultado(JTable table,JLabel[] resultado,int fila) {
 		Integer suma = 0;
 	    int nroFil = table.getRowCount();
 		for (int i = 0; i < nroFil; i++) {
+            Object elem = table.getValueAt(fila, i);
+            if (elem == null || elem.toString().isEmpty()) {
+                return false;
+            }
             Integer valor = Integer.parseInt(table.getValueAt(fila, i).toString());
 			suma+=valor;
 		}
-		if(suma.toString().equals(resultado.getText())) {
-			return true;
+		for (JLabel lbl : resultado) {
+			if (lbl == null || lbl.toString().isEmpty()) {
+				return false;
+			}
+			if(suma.toString().equals(lbl.getText())) {
+				return true;
+			}			
 		}
 		return false;
 	}
 	
-	public boolean columnaSumaResultado(JTable table,JLabel resultado,int columna) {
+	public boolean columnaSumaResultado(JTable table,JLabel[] resultado,int columna) {
 		Integer suma = 0;
 	    int numCols = table.getColumnCount();
 		for (int i = 0; i < numCols; i++) {
+            Object elem = table.getValueAt(i, columna);
+            if (elem == null || elem.toString().isEmpty()) {
+                return false;
+            }
             Integer valor = Integer.parseInt(table.getValueAt(i, columna).toString());
 			suma+=valor;
 		}
-		if(suma.toString().equals(resultado.getText())) {
-			return true;
+		for (JLabel lbl : resultado) {
+			if (lbl == null || lbl.toString().isEmpty()) {
+				return false;
+			}
+			if(suma.toString().equals(lbl.getText())) {
+				return true;
+			}
 		}
 		return false;
+	}
+	
+	public Integer lblText(JLabel label) {
+		Integer valor = Integer.parseInt(label.getText().toString());
+		return valor;
 	}
 }
