@@ -15,6 +15,8 @@ import javax.swing.JPanel;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
@@ -33,6 +35,8 @@ public class VentanaMatriz {
 	private JLabel lblSumaCol3;
 	private JLabel lblSumaCol4;
 	private JButton btnVerificar;
+	private ArrayList<Integer> sumasFilas;
+	private ArrayList<Integer> sumasColumnas;
 
 	/**
 	 * Launch the application.
@@ -68,6 +72,15 @@ public class VentanaMatriz {
 		
 		inciarInterfaz(); //Su proposito es organizar mejor el codigo
 		
+	}
+
+	private void inciarInterfaz() {
+		JLabel lblMatriz = new JLabel("MATRIZ");
+		lblMatriz.setHorizontalAlignment(SwingConstants.CENTER);
+		lblMatriz.setFont(new Font("Tahoma", Font.BOLD, 22));
+		lblMatriz.setBounds(0, 0, 434, 32);
+		frame.getContentPane().add(lblMatriz);
+		
 		//Cargar icono de ventana
 		try {
 		File imagen = new File("C:\\Users\\ftbar\\eclipse-workspace\\trabajo-practico-1-programacion-3\\imagenes\\icono.png");
@@ -80,16 +93,6 @@ public class VentanaMatriz {
 		frame.setTitle("Sudoku Raro!");
 		frame.setLocationRelativeTo(null); //Centra la ventana en pantalla
 		frame.setResizable(false);
-		
-		
-	}
-
-	private void inciarInterfaz() {
-		JLabel lblMatriz = new JLabel("MATRIZ");
-		lblMatriz.setHorizontalAlignment(SwingConstants.CENTER);
-		lblMatriz.setFont(new Font("Tahoma", Font.BOLD, 22));
-		lblMatriz.setBounds(0, 0, 434, 32);
-		frame.getContentPane().add(lblMatriz);
 		
 		scrollPane = new JScrollPane();
 		scrollPane.setBounds(127, 43, 185, 161);
@@ -120,7 +123,7 @@ public class VentanaMatriz {
 		}
 		
 		scrollPane.setColumnHeaderView(table);
-		
+
 		//Estas son las sumas, el numero puede ser modificado manualmente con labelname.setText("nuevo valor").
 		lblSumaFila1 = new JLabel("5");
 		lblSumaFila1.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -166,6 +169,16 @@ public class VentanaMatriz {
 		btnVerificar.setBounds(310, 249, 89, 23);
 		frame.getContentPane().add(btnVerificar);
 		
+//		sumasFilas = new ArrayList<Integer>(
+//				Integer.parseInt(lblSumaFila1.getText()),
+//				Integer.parseInt(lblSumaFila2.getText()),
+//				Integer.parseInt(lblSumaFila3.getText()),
+//				Integer.parseInt(lblSumaFila4.getText()));
+
+		JButton btnSuma = new JButton("Suma");
+		btnSuma.setBounds(207, 249, 89, 23);
+		frame.getContentPane().add(btnSuma);
+		
 		btnVerificar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (validar(table)) {
@@ -175,6 +188,17 @@ public class VentanaMatriz {
 				}
 			}
 		});
+		
+		btnSuma.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (filaSumaResultado(table, lblSumaFila1, 0) && columnaSumaResultado(table, lblSumaCol1, 0)){
+					JOptionPane.showMessageDialog(null, "Correcto");
+				} else {
+					JOptionPane.showMessageDialog(null, "Incorrecto");
+				}
+			}
+		});
+		
 		
 	}
 	/*
@@ -186,8 +210,8 @@ public class VentanaMatriz {
 	    int nroCol= table.getColumnCount();
 	    for (int i = 0; i < nroFil; i++) {
 	        for (int j = 0; j < nroCol; j++) {
-	            Object value = table.getValueAt(i, j);
-	            if (value == null || value.toString().isEmpty()) {
+	            Object valor = table.getValueAt(i, j);
+	            if (valor == null || valor.toString().isEmpty()) {
 	                return false;
 	            }
 	        }
@@ -196,4 +220,29 @@ public class VentanaMatriz {
 	    return nroFil > 0 && nroCol > 0 && nroFil * nroCol == numElements;
 	}
 	
+	public boolean filaSumaResultado(JTable table,JLabel resultado,int fila) {
+		Integer suma = 0;
+	    int nroFil = table.getRowCount();
+		for (int i = 0; i < nroFil; i++) {
+            Integer valor = Integer.parseInt(table.getValueAt(fila, i).toString());
+			suma+=valor;
+		}
+		if(suma.toString().equals(resultado.getText())) {
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean columnaSumaResultado(JTable table,JLabel resultado,int columna) {
+		Integer suma = 0;
+	    int numCols = table.getColumnCount();
+		for (int i = 0; i < numCols; i++) {
+            Integer valor = Integer.parseInt(table.getValueAt(i, columna).toString());
+			suma+=valor;
+		}
+		if(suma.toString().equals(resultado.getText())) {
+			return true;
+		}
+		return false;
+	}
 }
