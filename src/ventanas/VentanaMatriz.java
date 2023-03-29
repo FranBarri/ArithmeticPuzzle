@@ -5,14 +5,12 @@ import javax.swing.table.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
-import java.util.*;
 import javax.imageio.ImageIO;
 import controladores.VentanaMatrizControlador;
 
 @SuppressWarnings("serial")
 public class VentanaMatriz extends JFrame {
 
-	private JFrame frame;
 	private JScrollPane scrollPane;
 	private JTable table;
 	private JLabel[] labelsFilas;
@@ -135,12 +133,12 @@ public class VentanaMatriz extends JFrame {
 		
 		btnSuma.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(!VentanaMatrizControlador.hayVacias(table)) {
+				if(!VentanaMatrizControlador.noHayVacias(table)) {
 					JOptionPane.showMessageDialog(null, "Hay celdas vacias");
 				} else {
 					boolean verif = true;
 					for (int i = 0; i < table.getRowCount(); i++) {
-						verif = VentanaMatrizControlador.filaSumaResultado(table, labelsFilas, i) && 
+						verif = verif && VentanaMatrizControlador.filaSumaResultado(table, labelsFilas, i) && 
 								VentanaMatrizControlador.columnaSumaResultado(table, labelsColumnas, i);
 					}
 					if (verif) {

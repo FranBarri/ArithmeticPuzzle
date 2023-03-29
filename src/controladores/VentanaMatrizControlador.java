@@ -18,11 +18,13 @@ public class VentanaMatrizControlador {
 		ventanaMatriz.setVisible(true);
 	}
 		
+	//Anadir timer para ver cuanto tarda en resolver matriz
+	
 	/*
 	 * Valida que la tabla no tenga celdas nulas (celdas no editadas)
 	 * y celdas vacias luego de editarlas y borrar su valor.
 	 */
-	public static boolean hayVacias(JTable table) {
+	public static boolean noHayVacias(JTable table) {
 	    int nroFil = table.getRowCount();
 	    int nroCol= table.getColumnCount();
 	    boolean ret = true;
