@@ -129,7 +129,8 @@ public class VentanaMatriz extends JFrame {
 		getContentPane().add(labelsColumnas[3]);
 		
 		btnSuma = new JButton("Suma");
-		btnSuma.setBounds(414, 398, 110, 40);
+		btnSuma.setFont(new Font("Tahoma", Font.BOLD, 16));
+		btnSuma.setBounds(384, 398, 125, 29);
 		getContentPane().add(btnSuma);
 		
 		
@@ -271,7 +272,8 @@ public class VentanaMatriz extends JFrame {
 		getContentPane().add(labelsColumnas[4]);
 		
 		btnSuma = new JButton("Suma");
-		btnSuma.setBounds(474, 458, 110, 40);
+		btnSuma.setFont(new Font("Tahoma", Font.BOLD, 16));
+		btnSuma.setBounds(444, 458, 125, 29);
 		getContentPane().add(btnSuma);
 		
 		
@@ -424,7 +426,8 @@ public class VentanaMatriz extends JFrame {
 		getContentPane().add(labelsColumnas[5]);
 		
 		btnSuma = new JButton("Suma");
-		btnSuma.setBounds(534, 518, 110, 40);
+		btnSuma.setFont(new Font("Tahoma", Font.BOLD, 16));
+		btnSuma.setBounds(504, 518, 125, 29);
 		getContentPane().add(btnSuma);
 		
 		
