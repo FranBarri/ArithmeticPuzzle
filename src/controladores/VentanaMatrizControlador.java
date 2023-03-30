@@ -3,6 +3,7 @@ package controladores;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 
+import sistema.Dificultad;
 import ventanas.VentanaMatriz;
 
 public class VentanaMatrizControlador {
@@ -80,5 +81,21 @@ public class VentanaMatrizControlador {
 	public static Integer lblText(JLabel label) {
 		Integer valor = Integer.parseInt(label.getText().toString());
 		return valor;
+	}
+	
+	public static void setDificultad(Dificultad dificultad) {
+		switch(dificultad) {
+		case FACIL:
+			ventanaMatriz.iniciarFacil();
+			break;
+		case MEDIO:
+			ventanaMatriz.iniciarMedio();
+			break;
+		case DIFICIL:
+			ventanaMatriz.iniciarDificil();
+			break;
+		}
+		ventanaMatriz.setVisible(true);
+
 	}
 }

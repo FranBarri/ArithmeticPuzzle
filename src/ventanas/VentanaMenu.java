@@ -2,6 +2,11 @@ package ventanas;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+
+import controladores.VentanaAyudaControlador;
+import controladores.VentanaMatrizControlador;
+import sistema.Dificultad;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
@@ -9,7 +14,6 @@ import java.io.File;
 @SuppressWarnings("serial")
 public class VentanaMenu extends JFrame {
 
-	private JFrame frame;
 	private JLabel lblTitulo;
 	private JLabel lblTitulo2;	
 	private JButton btnFacil;
@@ -99,11 +103,30 @@ public class VentanaMenu extends JFrame {
 
 		btnFacil.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				VentanaMatriz ventanaFacil = new VentanaMatriz();
-				ventanaFacil.setVisible(true);
+				VentanaMatrizControlador.setDificultad(Dificultad.FACIL);
+				dispose();
+			}
+		});
+		
+		btnMedio.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VentanaMatrizControlador.setDificultad(Dificultad.MEDIO);
 				dispose();
 			}
 		});	
 		
+		btnDificil.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VentanaMatrizControlador.setDificultad(Dificultad.DIFICIL);
+				dispose();
+			}
+		});	
+		
+		btnAyuda.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VentanaAyudaControlador.mostrar();
+				dispose();
+			}
+		});
 	}
 }

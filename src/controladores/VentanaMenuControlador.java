@@ -15,9 +15,9 @@ public class VentanaMenuControlador {
 		ventanaMenu.setVisible(true);
 	}
 	
-	private void setDificultad(Dificultad dificultad) {
+	private void setDificultadMatriz(Dificultad dificultad) {
 		cerrar();
-		VentanaMatrizControlador.mostrar();
+		VentanaMatrizControlador.setDificultad(dificultad);
 		
 	}
 	
