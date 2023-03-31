@@ -40,7 +40,7 @@ public class VentanaMenu extends JFrame {
 
 		//Cargar icono y titulo de ventana
 		try {
-			imagen = new File("C:\\Users\\ftbar\\eclipse-workspace\\trabajo-practico-1-programacion-3\\imagenes\\icono.png");
+			imagen = new File("imagenes\\icono.png");
 			icono = ImageIO.read(imagen);
 			setIconImage(icono);
 		} catch (Exception e) {
@@ -66,7 +66,7 @@ public class VentanaMenu extends JFrame {
 
 		lblImagen = new JLabel("");
 		lblImagen.setHorizontalAlignment(SwingConstants.CENTER);
-		lblImagen.setIcon(new ImageIcon("C:\\Users\\ftbar\\eclipse-workspace\\trabajo-practico-1-programacion-3\\imagenes\\sudoku3.png"));
+		lblImagen.setIcon(new ImageIcon("imagenes\\sudoku3.png"));
 		lblImagen.setBounds(0, 84, 532, 130);
 		getContentPane().add(lblImagen);
 
@@ -91,7 +91,7 @@ public class VentanaMenu extends JFrame {
 		getContentPane().add(btnRanking);
 
 		btnAyuda = new JButton("");
-		btnAyuda.setIcon(new ImageIcon("C:\\Users\\ftbar\\eclipse-workspace\\trabajo-practico-1-programacion-3\\imagenes\\pregunta1.png"));
+		btnAyuda.setIcon(new ImageIcon("imagenes\\pregunta1.png"));
 		btnAyuda.setFont(new Font("Tahoma", Font.BOLD, 16));
 		btnAyuda.setBounds(10, 398, 40, 40);
 		getContentPane().add(btnAyuda);

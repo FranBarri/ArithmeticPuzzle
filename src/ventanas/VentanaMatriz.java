@@ -15,8 +15,11 @@ public class VentanaMatriz extends JFrame {
 
 	private JScrollPane scrollPane;
 	private JTable table;
+	private Object[][] matriz;
 	private JLabel[] labelsFilas;
+	private Integer[] nrosFilas;
 	private JLabel[] labelsColumnas;
+	private Integer[] nrosColumnas;
 	private JButton btnSuma;
 	private File imagen;
 	private Image icono;
@@ -33,7 +36,7 @@ public class VentanaMatriz extends JFrame {
 		
 		//Cargar icono y titulo de ventana
 		try {
-			imagen = new File("C:\\Users\\ftbar\\eclipse-workspace\\trabajo-practico-1-programacion-3\\imagenes\\icono.png");
+			imagen = new File("imagenes\\icono.png");
 			icono = ImageIO.read(imagen);
 			setIconImage(icono);
 		} catch (Exception e) {
@@ -133,28 +136,27 @@ public class VentanaMatriz extends JFrame {
 		btnSuma.setBounds(384, 398, 125, 29);
 		getContentPane().add(btnSuma);
 		
+		nrosFilas = new Integer[4];
+		setNrosFilas(labelsFilas, nrosFilas);
+		nrosColumnas = new Integer[4];
+		setNrosColumnas(labelsColumnas, nrosColumnas);
 		
+		matriz = new Object[4][4];
 		
 		btnSuma.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(!VentanaMatrizControlador.noHayVacias(table)) {
-					JOptionPane.showMessageDialog(null, "Hay celdas vacias");
-				} else {
-					boolean verif = true;
-					for (int i = 0; i < table.getRowCount(); i++) {
-						verif = verif && VentanaMatrizControlador.filaSumaResultado(table, labelsFilas, i) && 
-								VentanaMatrizControlador.columnaSumaResultado(table, labelsColumnas, i);
-					}
-					if (verif) {
+				setMatriz(table, matriz);
+				if(VentanaMatrizControlador.noHayVacias(matriz)) {
+					if (VentanaMatrizControlador.sumarFilasyColumnas(matriz, nrosFilas, nrosColumnas)) {
 						JOptionPane.showMessageDialog(null, "Correcto");
 					} else {
 						JOptionPane.showMessageDialog(null, "Incorrecto");
 					}
+				} else {
+					JOptionPane.showMessageDialog(null, "No pueden haber celdas vacias");
 				}
 			}
 		});
-
-		
 	}
 
 	public void iniciarMedio() {
@@ -165,7 +167,7 @@ public class VentanaMatriz extends JFrame {
 		
 		//Cargar icono y titulo de ventana
 		try {
-			imagen = new File("C:\\Users\\ftbar\\eclipse-workspace\\trabajo-practico-1-programacion-3\\imagenes\\icono.png");
+			imagen = new File("imagenes\\icono.png");
 			icono = ImageIO.read(imagen);
 			setIconImage(icono);
 		} catch (Exception e) {
@@ -276,23 +278,24 @@ public class VentanaMatriz extends JFrame {
 		btnSuma.setBounds(444, 458, 125, 29);
 		getContentPane().add(btnSuma);
 		
+		nrosFilas = new Integer[5];
+		setNrosFilas(labelsFilas, nrosFilas);
+		nrosColumnas = new Integer[5];
+		setNrosColumnas(labelsColumnas, nrosColumnas);
 		
+		matriz = new Integer[5][5];
 		
 		btnSuma.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(!VentanaMatrizControlador.noHayVacias(table)) {
-					JOptionPane.showMessageDialog(null, "Hay celdas vacias");
-				} else {
-					boolean verif = true;
-					for (int i = 0; i < table.getRowCount(); i++) {
-						verif = verif && VentanaMatrizControlador.filaSumaResultado(table, labelsFilas, i) && 
-								VentanaMatrizControlador.columnaSumaResultado(table, labelsColumnas, i);
-					}
-					if (verif) {
+				setMatriz(table, matriz);
+				if(VentanaMatrizControlador.noHayVacias(matriz)) {
+					if (VentanaMatrizControlador.sumarFilasyColumnas(matriz, nrosFilas, nrosColumnas)) {
 						JOptionPane.showMessageDialog(null, "Correcto");
 					} else {
 						JOptionPane.showMessageDialog(null, "Incorrecto");
 					}
+				} else {
+					JOptionPane.showMessageDialog(null, "No pueden haber celdas vacias");
 				}
 			}
 		});
@@ -308,7 +311,7 @@ public class VentanaMatriz extends JFrame {
 		
 		//Cargar icono y titulo de ventana
 		try {
-			imagen = new File("C:\\Users\\ftbar\\eclipse-workspace\\trabajo-practico-1-programacion-3\\imagenes\\icono.png");
+			imagen = new File("imagenes\\icono.png");
 			icono = ImageIO.read(imagen);
 			setIconImage(icono);
 		} catch (Exception e) {
@@ -364,7 +367,6 @@ public class VentanaMatriz extends JFrame {
 		
 		labelsFilas = new JLabel[6];
 		labelsColumnas = new JLabel[6];
-		//Estas son las sumas, el numero puede ser modificado manualmente con labelname.setText("nuevo valor").
 		labelsFilas[0] = new JLabel("5");
 		labelsFilas[0].setFont(new Font("Tahoma", Font.PLAIN, 22));
 		labelsFilas[0].setBounds(515, 100, 40, 50);
@@ -430,27 +432,54 @@ public class VentanaMatriz extends JFrame {
 		btnSuma.setBounds(504, 518, 125, 29);
 		getContentPane().add(btnSuma);
 		
+		nrosFilas = new Integer[6];
+		setNrosFilas(labelsFilas, nrosFilas);
+		nrosColumnas = new Integer[6];
+		setNrosColumnas(labelsColumnas, nrosColumnas);
 		
+		matriz = new Integer[6][6];
 		
 		btnSuma.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(!VentanaMatrizControlador.noHayVacias(table)) {
-					JOptionPane.showMessageDialog(null, "Hay celdas vacias");
-				} else {
-					boolean verif = true;
-					for (int i = 0; i < table.getRowCount(); i++) {
-						verif = verif && VentanaMatrizControlador.filaSumaResultado(table, labelsFilas, i) && 
-								VentanaMatrizControlador.columnaSumaResultado(table, labelsColumnas, i);
-					}
-					if (verif) {
+				setMatriz(table, matriz);
+				if(VentanaMatrizControlador.noHayVacias(matriz)) {
+					if (VentanaMatrizControlador.sumarFilasyColumnas(matriz, nrosFilas, nrosColumnas)) {
 						JOptionPane.showMessageDialog(null, "Correcto");
 					} else {
 						JOptionPane.showMessageDialog(null, "Incorrecto");
 					}
+				} else {
+					JOptionPane.showMessageDialog(null, "No pueden haber celdas vacias");
 				}
 			}
 		});
 
 		
+	}
+	
+	public static void setNrosFilas(JLabel[] labelsFilas, Integer[] nrosFilas) {
+		for (int i=0; i<labelsFilas.length; i++) {
+			nrosFilas[i] = Integer.parseInt(labelsFilas[i].getText().toString());
+		}
+	}
+	public static void setNrosColumnas(JLabel[] labelsCols, Integer[] nrosCols) {
+		for (int i=0; i<labelsCols.length; i++) {
+			nrosCols[i] = Integer.parseInt(labelsCols[i].getText().toString());
+		}
+	}
+	public static void setMatriz(JTable tabla, Object[][] matriz) {
+		int nroFilas = tabla.getRowCount();
+		int nroColumnas = tabla.getColumnCount();
+		for (int i = 0; i<nroFilas; i++) {
+			for (int j = 0; j<nroColumnas; j++) {
+				Object valor = tabla.getValueAt(i, j);
+				if (valor == null || valor.toString().isEmpty()) {
+					matriz[i][j] = valor;					
+				} else {
+					valor = Integer.parseInt(valor.toString());
+					matriz[i][j] = valor;
+				}
+			}
+		}
 	}
 }

@@ -36,7 +36,7 @@ public class VentanaAyuda extends JFrame{
 		
 		//Cargar icono y titulo de ventana
 		try {
-			imagen = new File("C:\\Users\\ftbar\\eclipse-workspace\\trabajo-practico-1-programacion-3\\imagenes\\icono.png");
+			imagen = new File("imagenes\\icono.png");
 			icono = ImageIO.read(imagen);
 			setIconImage(icono);
 		} catch (Exception e) {
