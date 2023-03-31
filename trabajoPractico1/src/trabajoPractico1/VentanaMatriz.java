@@ -33,11 +33,10 @@ public class VentanaMatriz {
 	private JLabel lblSumaCol4;
 	private JButton btnVerificar;
 	private JLabel lblTiempo;
+	private static final long serialVersionUID = 1L;
 	private Date tiempoInicial;
 	private Date tiempoActual;
-	private Timer timer;
-	private int segundosRestantes = 60;
-	
+	private boolean detenido;
 
 	/**
 	 * Launch the application.
@@ -85,7 +84,8 @@ public class VentanaMatriz {
         
         tiempoInicial = new Date();
         tiempoActual = new Date();
-		
+        detenido = true;
+        
 		scrollPane = new JScrollPane();
 		scrollPane.setBounds(127, 43, 188, 161);
 		frame.getContentPane().add(scrollPane);
@@ -167,12 +167,13 @@ public class VentanaMatriz {
                 tiempoActual = new Date();
                 long tiempoTranscurrido = tiempoActual.getTime() - tiempoInicial.getTime();
                 lblTiempo.setText(tiempoTranscurrido / 1000 + " segundos");
+                detenido=false;
             }
         });
 		
 		 Thread t = new Thread(new Runnable() {
 	            public void run() {
-	                while (true) {
+	                while (detenido) {
 	                    tiempoActual = new Date();
 	                    long tiempoTranscurrido = tiempoActual.getTime() - tiempoInicial.getTime();
 	                    lblTiempo.setText(tiempoTranscurrido / 1000 + " segundos");
