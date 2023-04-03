@@ -64,18 +64,6 @@ class JuegoGrilla {
         return false;
     }
     
-    public static void main(String[] args) {
-    int[][] matriz = {{1, 2, 3, 4}, {5, 6, 7, 8}, {9, 10, 11, 12}, {13, 14, 15, 16}};
-    int sumaCol1=sumaColumna(matriz,1);	
-    int sumaCol2=sumaColumna(matriz,2);	
-    int sumaCol3=sumaColumna(matriz,3);	
-    int sumaCol4=sumaColumna(matriz,4);	
-    int sumaFila1=sumaFila(matriz,1);
-    int sumaFila2=sumaFila(matriz,2);
-    int sumaFila3=sumaFila(matriz,3);
-    int sumaFila4=sumaFila(matriz,4);
-
-
-    }
+    
     
 }

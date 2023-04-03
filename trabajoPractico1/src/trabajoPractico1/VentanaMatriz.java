@@ -15,6 +15,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Date;
+import java.util.Random;
 
 import javax.swing.JButton;
 
@@ -32,11 +33,14 @@ public class VentanaMatriz {
 	private JLabel lblSumaCol3;
 	private JLabel lblSumaCol4;
 	private JButton btnVerificar;
+	private JButton btnMeRindo;
 	private JLabel lblTiempo;
 	private static final long serialVersionUID = 1L;
 	private Date tiempoInicial;
 	private Date tiempoActual;
 	private boolean detenido;
+	private int[][] grilla;
+	Random rand = new Random();
 
 	/**
 	 * Launch the application.
@@ -58,6 +62,7 @@ public class VentanaMatriz {
 	 * Create the application.
 	 */
 	public VentanaMatriz() {
+		generarGrillaRandom();
 		initialize();
 		
 	}
@@ -66,6 +71,7 @@ public class VentanaMatriz {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 337);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -117,49 +123,79 @@ public class VentanaMatriz {
 		scrollPane.setColumnHeaderView(table);
 		
 		//Estas son las sumas, el numero puede ser modificado manualmente con labelname.setText("nuevo valor").
-		lblSumaFila1 = new JLabel("5");
+//		lblSumaFila1 = new JLabel("5");
+		lblSumaFila1 = new JLabel("");
 		lblSumaFila1.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblSumaFila1.setBounds(325, 58, 9, 14);
+		lblSumaFila1.setBounds(325, 58, 25, 25);
+		lblSumaFila1.setText(Integer.toString(sumaFila(grilla,0)));
 		frame.getContentPane().add(lblSumaFila1);
 		
-		lblSumaFila2 = new JLabel("12");
+//		lblSumaFila2 = new JLabel("12");
+		lblSumaFila2 = new JLabel("");
 		lblSumaFila2.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblSumaFila2.setBounds(325, 92, 18, 20);
+		lblSumaFila2.setBounds(325, 92, 25, 25);
+		lblSumaFila2.setText(Integer.toString(sumaFila(grilla,1)));
 		frame.getContentPane().add(lblSumaFila2);
 		
-		lblSumaFila3 = new JLabel("5");
+//		lblSumaFila3 = new JLabel("5");
+		lblSumaFila3 = new JLabel("");
 		lblSumaFila3.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblSumaFila3.setBounds(325, 135, 9, 14);
+		lblSumaFila3.setBounds(325, 135, 25, 25);
+		lblSumaFila3.setText(Integer.toString(sumaFila(grilla,2)));
 		frame.getContentPane().add(lblSumaFila3);
 		
-		lblSumaFila4 = new JLabel("7");
+//		lblSumaFila4 = new JLabel("7");
+		lblSumaFila4 = new JLabel("");
 		lblSumaFila4.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblSumaFila4.setBounds(325, 177, 9, 14);
+		lblSumaFila4.setBounds(325, 177, 25, 25);
+		lblSumaFila4.setText(Integer.toString(sumaFila(grilla,3)));
 		frame.getContentPane().add(lblSumaFila4);
 		
-		lblSumaCol1 = new JLabel("7");
+//		lblSumaCol1 = new JLabel("7");
+		lblSumaCol1 = new JLabel("");
 		lblSumaCol1.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblSumaCol1.setBounds(147, 215, 9, 14);
+		lblSumaCol1.setBounds(147, 215, 25, 25);
+		lblSumaCol1.setText(Integer.toString(sumaColumna(grilla,0)));
 		frame.getContentPane().add(lblSumaCol1);
 		
-		lblSumaCol2 = new JLabel("9");
+//		lblSumaCol2 = new JLabel("9");
+		lblSumaCol2 = new JLabel("");
 		lblSumaCol2.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblSumaCol2.setBounds(190, 215, 9, 14);
+		lblSumaCol2.setBounds(190, 215, 25, 25);
+		lblSumaCol2.setText(Integer.toString(sumaColumna(grilla,1)));
 		frame.getContentPane().add(lblSumaCol2);
 		
-		lblSumaCol3 = new JLabel("9");
+//		lblSumaCol3 = new JLabel("9");
+		lblSumaCol3 = new JLabel("");
 		lblSumaCol3.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblSumaCol3.setBounds(240, 215, 9, 14);
+		lblSumaCol3.setBounds(240, 215, 25, 25);
+		lblSumaCol3.setText(Integer.toString(sumaColumna(grilla,2)));
 		frame.getContentPane().add(lblSumaCol3);
 		
-		lblSumaCol4 = new JLabel("6");
+//		lblSumaCol4 = new JLabel("6");
+		lblSumaCol4 = new JLabel("");
 		lblSumaCol4.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblSumaCol4.setBounds(287, 215, 9, 14);
+		lblSumaCol4.setBounds(287, 215, 25, 25);
+		lblSumaCol4.setText(String.valueOf(sumaColumna(grilla,3)));
 		frame.getContentPane().add(lblSumaCol4);
 		
 		btnVerificar = new JButton("Verificar");
 		btnVerificar.setBounds(310, 249, 89, 23);
 		frame.getContentPane().add(btnVerificar);
+		
+		btnMeRindo = new JButton("Me rindo!");
+		btnMeRindo.setBounds(176, 249, 89, 23);
+		frame.getContentPane().add(btnMeRindo);
+		
+		btnMeRindo.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            	for (int i = 0; i < 4; i++) {
+                    for (int j = 0; j < 4; j++) {
+                        table.setValueAt(grilla[i][j], i, j);
+                    }
+                }
+            }
+        });
 		
 
 		btnVerificar.addActionListener(new ActionListener() {
@@ -186,8 +222,32 @@ public class VentanaMatriz {
 	            }
 	        });
 	        t.start();
+	        
+	    }
+	public void generarGrillaRandom() {
+		this.grilla = new int[4][4];
+		for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                grilla[i][j] = rand.nextInt(9) + 1; // genera numeros random entre 1 y 9
+            }
+        }
+	}
+	public static int sumaFila(int[][] matriz, int fila) {
+        int sum = 0;
+        for (int j = 0; j < matriz[fila].length; j++) {
+            sum += matriz[fila][j];
+        }
+        return sum;
+    }
+	 public static int sumaColumna(int[][] matriz, int col) {
+	        int sum = 0;
+	        for (int i = 0; i < matriz.length; i++) {
+	            sum += matriz[i][col];
+	        }
+	        return sum;
 	    }
 		
+	
 	}
 	
 
