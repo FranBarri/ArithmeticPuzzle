@@ -1,6 +1,38 @@
 package sistema;
 
+import java.util.Random;
+
 public class Logica {
+    private static Random rand = new Random();
+
+    public static Object[][] generarGrilla(Object[][] grilla, int dificultad) {
+        grilla = new Integer[dificultad][dificultad];
+        for (int i = 0; i < dificultad; i++) {
+            for (int j = 0; j < dificultad; j++) {
+                grilla[i][j] = rand.nextInt(9) + 1; // genera numeros random entre 1 y 9
+            }
+        }
+        return grilla;
+    }
+    
+    // funcion que devuelve la suma de los elementos de la fila pasada por parametro
+    public static void setSumasFilas(Object[][] matriz, Integer[] labels, int fila) {
+        int sum = 0;
+        for (int j = 0; j < matriz[fila].length; j++) {
+            sum += Integer.parseInt(matriz[fila][j].toString());
+        }
+        labels[fila] = sum;
+    }
+
+    // funcion que devuelve la suma de los elementos de la columna pasada por parametro
+    public static void setSumasColumnas(Object[][] matriz, Integer[] labels, int col) {
+        int sum = 0;
+        for (int i = 0; i < matriz.length; i++) {
+            sum += Integer.parseInt(matriz[i][col].toString());
+        }
+        labels[col] = sum;
+    }
+
 	public static boolean noHayVacias(Object[][] matriz) {
 	    boolean ret = true;
 	    for (int i = 0; i < matriz.length; i++) {

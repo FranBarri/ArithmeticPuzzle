@@ -16,13 +16,16 @@ public class VentanaMatrizControlador {
 	public static void mostrar() {
 		ventanaMatriz.setVisible(true);
 	}
-		
-	//Anadir timer para ver cuanto tarda en resolver matriz
-	
-	/*
-	 * Valida que la tabla no tenga celdas nulas (celdas no editadas)
-	 * y celdas vacias luego de editarlas y borrar su valor.
-	 */
+	public static Object[][] generarMatrizRandom(Object[][] matriz, int dificultad) {
+		matriz = Logica.generarGrilla(matriz, dificultad);
+		return matriz;
+	}
+	public static void generarSumaFilas(Object[][] matriz, Integer[] labels, int fila) {
+		Logica.setSumasFilas(matriz, labels, fila);
+	}
+	public static void generarSumaColumnas(Object[][] matriz, Integer[] labels, int col) {
+		Logica.setSumasColumnas(matriz, labels, col);
+	}
 	public static boolean noHayVacias(Object[][] matriz) {
 		return Logica.noHayVacias(matriz);
 	}
