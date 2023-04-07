@@ -10,7 +10,6 @@ import java.util.Random;
 
 import javax.imageio.ImageIO;
 import controladores.VentanaMatrizControlador;
-import controladores.VentanaMenuControlador;
 
 public class VentanaMatriz extends JFrame {
 	public VentanaMatriz() {
@@ -25,6 +24,7 @@ public class VentanaMatriz extends JFrame {
 	private JLabel[] labelsColumnas;
 	private Integer[] nrosColumnas;
 	private JButton btnSuma;
+//	private JButton volver;
 	private File imagen;
 	private Image icono;
 	private JLabel lblx;
@@ -176,10 +176,12 @@ public class VentanaMatriz extends JFrame {
 		btnMeRindo.setBounds(244, 398, 125, 29);
 		getContentPane().add(btnMeRindo);
 		
-		JButton btnVolver = new JButton("Volver");
+		/*
+		btnVolver = new JButton("Volver");
 		btnVolver.setFont(new Font("Tahoma", Font.BOLD, 16));
 		btnVolver.setBounds(10, 404, 125, 29);
 		getContentPane().add(btnVolver);
+		*/
 		
 		matriz = new Object[4][4];
 		
@@ -210,12 +212,14 @@ public class VentanaMatriz extends JFrame {
             }
         });
 		
+		/*
 		btnVolver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				VentanaMenuControlador.mostrar();
 				dispose();
 			}
 		});
+		*/
 
 		 Thread t = new Thread(new Runnable() {
 	            public void run() {
@@ -368,10 +372,12 @@ public class VentanaMatriz extends JFrame {
 		btnMeRindo.setBounds(304, 458, 125, 29);
 		getContentPane().add(btnMeRindo);
 		
-		JButton btnVolver = new JButton("Volver");
+		/*
+		btnVolver = new JButton("Volver");
 		btnVolver.setFont(new Font("Tahoma", Font.BOLD, 16));
 		btnVolver.setBounds(10, 404, 125, 29);
 		getContentPane().add(btnVolver);
+		*/
 		
 		nrosFilas = new Integer[5];
 		nrosColumnas = new Integer[5];
@@ -414,12 +420,14 @@ public class VentanaMatriz extends JFrame {
             }
         });
 		
+		/*
 		btnVolver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				VentanaMenuControlador.mostrar();
 				dispose();
 			}
 		});
+		*/
 
 		 Thread t = new Thread(new Runnable() {
 	            public void run() {
@@ -582,10 +590,12 @@ public class VentanaMatriz extends JFrame {
 		btnMeRindo.setBounds(360, 518, 125, 29);
 		getContentPane().add(btnMeRindo);
 		
-		JButton btnVolver = new JButton("Volver");
+		/*
+		btnVolver = new JButton("Volver");
 		btnVolver.setFont(new Font("Tahoma", Font.BOLD, 16));
 		btnVolver.setBounds(10, 404, 125, 29);
 		getContentPane().add(btnVolver);
+		*/
 
 		
 		nrosFilas = new Integer[6];
@@ -629,12 +639,14 @@ public class VentanaMatriz extends JFrame {
             }
         });
 		
+		/*
 		btnVolver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				VentanaMenuControlador.mostrar();
 				dispose();
 			}
 		});
+		*/
 
 		 Thread t = new Thread(new Runnable() {
 	            public void run() {
