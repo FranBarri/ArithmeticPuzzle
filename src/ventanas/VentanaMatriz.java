@@ -5,8 +5,10 @@ import javax.swing.table.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
+
 import javax.imageio.ImageIO;
 import controladores.VentanaMatrizControlador;
+import controladores.VentanaMenuControlador;
 
 @SuppressWarnings("serial")
 public class VentanaMatriz extends JFrame {
@@ -24,11 +26,15 @@ public class VentanaMatriz extends JFrame {
 	private File imagen;
 	private Image icono;
 	private JLabel lblx;
+	
+	private JButton volverMenu;
+	private JButton botonReiniciar;
 
 	/**
 	 * Create the application.
 	 */
 	public void iniciarFacil() {
+		
 		getContentPane().setBackground(new Color(163, 200, 211));
 		setBounds(100, 100, 550, 490);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -155,6 +161,62 @@ public class VentanaMatriz extends JFrame {
 				} else {
 					JOptionPane.showMessageDialog(null, "No pueden haber celdas vacias");
 				}
+			}
+		});
+		
+		volverMenu = new JButton("Volver a Menú");
+		volverMenu.setFont(new Font("Tahoma", Font.BOLD, 16));
+		volverMenu.setBounds(204, 398, 155, 29);
+		getContentPane().add(volverMenu);
+		
+		volverMenu.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				dispose();
+				VentanaMatrizControlador.cerrar();
+				DefaultTableModel model = new DefaultTableModel(
+						new Integer[][] {
+							{null, null, null, null},
+							{null, null, null, null},
+							{null, null, null, null},
+							{null, null, null, null},
+						},
+						new String[] {
+							"New column", "New column", "New column", "New column"
+						}
+					);
+				table.setModel(model);
+				matriz = new Object[4][4];
+				reiniciarMatriz(table, matriz);
+				
+				VentanaMenuControlador.mostrar();
+			}
+		});
+		
+		botonReiniciar = new JButton("Reiniciar");
+		botonReiniciar.setFont(new Font("Tahoma", Font.BOLD, 16));
+		botonReiniciar.setBounds(40, 30, 110, 29);
+		getContentPane().add(botonReiniciar);
+		
+		botonReiniciar.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				DefaultTableModel model = new DefaultTableModel(
+					new Integer[][] {
+						{null, null, null, null},
+						{null, null, null, null},
+						{null, null, null, null},
+						{null, null, null, null},
+					},
+					new String[] {
+							"New column", "New column", "New column", "New column"
+					}
+					);
+				table.setModel(model);
+				matriz = new Object[4][4];
+				reiniciarMatriz(table, matriz);
 			}
 		});
 	}
@@ -300,7 +362,65 @@ public class VentanaMatriz extends JFrame {
 			}
 		});
 
+		volverMenu = new JButton("Volver a Menú");
+		volverMenu.setFont(new Font("Tahoma", Font.BOLD, 16));
+		volverMenu.setBounds(264, 458, 155, 29);
+		getContentPane().add(volverMenu);
 		
+		volverMenu.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				dispose();
+				VentanaMatrizControlador.cerrar();
+				
+				DefaultTableModel model = new DefaultTableModel(
+						new Integer[][] {
+							{null, null, null, null},
+							{null, null, null, null},
+							{null, null, null, null},
+							{null, null, null, null},
+							{null, null, null, null},
+						},
+						new String[] {
+							"New column", "New column", "New column", "New column", "New column"
+						}
+					);
+				
+				table.setModel(model);
+				matriz = new Object[5][5];
+				reiniciarMatriz(table, matriz);
+				VentanaMenuControlador.mostrar();
+			}
+			
+		});
+		
+		botonReiniciar = new JButton("Reiniciar");
+		botonReiniciar.setFont(new Font("Tahoma", Font.BOLD, 16));
+		botonReiniciar.setBounds(40, 30, 110, 29);
+		getContentPane().add(botonReiniciar);
+		
+		botonReiniciar.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				DefaultTableModel model = new DefaultTableModel(
+					new Integer[][] {
+						{null, null, null, null},
+						{null, null, null, null},
+						{null, null, null, null},
+						{null, null, null, null},
+						{null, null, null, null},
+					},
+					new String[] {
+							"New column", "New column", "New column", "New column", "New column"
+					}
+					);
+				table.setModel(model);
+				matriz = new Object[5][5];
+				reiniciarMatriz(table, matriz);
+			}
+		});
 	}
 
 	public void iniciarDificil() {
@@ -454,7 +574,71 @@ public class VentanaMatriz extends JFrame {
 			}
 		});
 
+		volverMenu = new JButton("Volver a Menú");
+		volverMenu.setFont(new Font("Tahoma", Font.BOLD, 16));
+		volverMenu.setBounds(324, 518, 155, 29);
+		getContentPane().add(volverMenu);
 		
+		volverMenu.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+//				for (int i = 0; i < 4; i++) {
+//					for (int j = 0; j < 4; j++) {
+//						table.setValueAt(matriz[i][j], null, null);
+//					}
+//				}
+				
+				dispose();
+				VentanaMatrizControlador.cerrar();
+				
+				DefaultTableModel model = new DefaultTableModel(
+						new Integer[][] {
+							{null, null, null, null},
+							{null, null, null, null},
+							{null, null, null, null},
+							{null, null, null, null},
+							{null, null, null, null},
+						},
+						new String[] {
+							"New column", "New column", "New column", "New column", "New column"
+						}
+					);
+				
+				table.setModel(model);
+				matriz = new Object[5][5];
+				reiniciarMatriz(table, matriz);
+				VentanaMenuControlador.mostrar();
+			}
+		});
+		
+		botonReiniciar = new JButton("Reiniciar");
+		botonReiniciar.setFont(new Font("Tahoma", Font.BOLD, 16));
+		botonReiniciar.setBounds(40, 30, 110, 29);
+		getContentPane().add(botonReiniciar);
+		
+		botonReiniciar.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				DefaultTableModel model = new DefaultTableModel(
+					new Integer[][] {
+						{null, null, null, null},
+						{null, null, null, null},
+						{null, null, null, null},
+						{null, null, null, null},
+						{null, null, null, null},
+						{null, null, null, null},
+					},
+					new String[] {
+							"New column", "New column", "New column", "New column", "New column", "New column"
+					}
+					);
+				table.setModel(model);
+				matriz = new Object[6][6];
+				reiniciarMatriz(table, matriz);
+			}
+		});
 	}
 	
 	public static void setNrosFilas(JLabel[] labelsFilas, Integer[] nrosFilas) {
@@ -482,4 +666,16 @@ public class VentanaMatriz extends JFrame {
 			}
 		}
 	}
+	
+	public static void reiniciarMatriz(JTable tabla, Object[][] matriz)
+	{
+		int nroFilas = tabla.getRowCount();
+		int nroColumnas = tabla.getColumnCount();
+		for (int i = 0; i<nroFilas; i++) {
+			for (int j = 0; j<nroColumnas; j++) {
+				matriz[i][j] = null;
+			}
+		}
+	}
+	
 }
