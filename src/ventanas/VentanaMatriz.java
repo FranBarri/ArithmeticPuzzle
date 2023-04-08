@@ -166,7 +166,7 @@ public class VentanaMatriz extends JFrame {
 		setNrosFilas(labelsFilas, nrosFilas);
 		setNrosColumnas(labelsColumnas, nrosColumnas);
 		
-		btnSuma = new JButton("Suma");
+		btnSuma = new JButton("Sumar");
 		btnSuma.setFont(new Font("Tahoma", Font.BOLD, 16));
 		btnSuma.setBounds(384, 398, 125, 29);
 		getContentPane().add(btnSuma);
@@ -191,12 +191,12 @@ public class VentanaMatriz extends JFrame {
 				setMatriz(table, matriz);
 				if(VentanaMatrizControlador.noHayVacias(matriz)) {
 					if (VentanaMatrizControlador.sumarFilasyColumnas(matriz, nrosFilas, nrosColumnas)) {
-						JOptionPane.showMessageDialog(null, "Correcto");
+						JOptionPane.showMessageDialog(null, "Correcto! El juego terminó.");
 					} else {
-						JOptionPane.showMessageDialog(null, "Incorrecto");
+						JOptionPane.showMessageDialog(null, "Incorrecto! Volvé a intentarlo.");
 					}
 				} else {
-					JOptionPane.showMessageDialog(null, "No pueden haber celdas vacias");
+					JOptionPane.showMessageDialog(null, "No pueden haber celdas vacias.");
 				}
 			}
 		});
@@ -209,6 +209,7 @@ public class VentanaMatriz extends JFrame {
                         table.setValueAt(matrizResuelta[i][j], i, j);
                     }
                 }
+            	JOptionPane.showMessageDialog(null, "Acá está la matriz resuelta. El juego terminó!");
             }
         });
 		
@@ -362,7 +363,7 @@ public class VentanaMatriz extends JFrame {
 		labelsColumnas[4].setBounds(415, 390, 40, 50);
 		getContentPane().add(labelsColumnas[4]);
 		
-		btnSuma = new JButton("Suma");
+		btnSuma = new JButton("Sumar");
 		btnSuma.setFont(new Font("Tahoma", Font.BOLD, 16));
 		btnSuma.setBounds(444, 458, 125, 29);
 		getContentPane().add(btnSuma);
@@ -399,12 +400,12 @@ public class VentanaMatriz extends JFrame {
 				setMatriz(table, matriz);
 				if(VentanaMatrizControlador.noHayVacias(matriz)) {
 					if (VentanaMatrizControlador.sumarFilasyColumnas(matriz, nrosFilas, nrosColumnas)) {
-						JOptionPane.showMessageDialog(null, "Correcto");
+						JOptionPane.showMessageDialog(null, "Correcto! El juego terminó.");
 					} else {
-						JOptionPane.showMessageDialog(null, "Incorrecto");
+						JOptionPane.showMessageDialog(null, "Incorrecto! Volvé a intentarlo.");
 					}
 				} else {
-					JOptionPane.showMessageDialog(null, "No pueden haber celdas vacias");
+					JOptionPane.showMessageDialog(null, "No pueden haber celdas vacias.");
 				}
 			}
 		});
@@ -412,11 +413,12 @@ public class VentanaMatriz extends JFrame {
 		btnMeRindo.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
             	detenido = false;
-            	for (int i = 0; i < 5; i++) {
-                    for (int j = 0; j < 5; j++) {
+            	for (int i = 0; i < 4; i++) {
+                    for (int j = 0; j < 4; j++) {
                         table.setValueAt(matrizResuelta[i][j], i, j);
                     }
                 }
+            	JOptionPane.showMessageDialog(null, "Acá está la matriz resuelta. El juego terminó!");
             }
         });
 		
@@ -580,7 +582,7 @@ public class VentanaMatriz extends JFrame {
 		labelsColumnas[5].setBounds(475, 450, 40, 50);
 		getContentPane().add(labelsColumnas[5]);
 		
-		btnSuma = new JButton("Suma");
+		btnSuma = new JButton("Sumar");
 		btnSuma.setFont(new Font("Tahoma", Font.BOLD, 16));
 		btnSuma.setBounds(504, 518, 125, 29);
 		getContentPane().add(btnSuma);
@@ -618,12 +620,12 @@ public class VentanaMatriz extends JFrame {
 				setMatriz(table, matriz);
 				if(VentanaMatrizControlador.noHayVacias(matriz)) {
 					if (VentanaMatrizControlador.sumarFilasyColumnas(matriz, nrosFilas, nrosColumnas)) {
-						JOptionPane.showMessageDialog(null, "Correcto");
+						JOptionPane.showMessageDialog(null, "Correcto! El juego terminó.");
 					} else {
-						JOptionPane.showMessageDialog(null, "Incorrecto");
+						JOptionPane.showMessageDialog(null, "Incorrecto! Volvé a intentarlo.");
 					}
 				} else {
-					JOptionPane.showMessageDialog(null, "No pueden haber celdas vacias");
+					JOptionPane.showMessageDialog(null, "No pueden haber celdas vacias.");
 				}
 			}
 		});
@@ -631,11 +633,12 @@ public class VentanaMatriz extends JFrame {
 		btnMeRindo.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
             	detenido = false;
-            	for (int i = 0; i < 6; i++) {
-                    for (int j = 0; j < 6; j++) {
+            	for (int i = 0; i < 4; i++) {
+                    for (int j = 0; j < 4; j++) {
                         table.setValueAt(matrizResuelta[i][j], i, j);
                     }
                 }
+            	JOptionPane.showMessageDialog(null, "Acá está la matriz resuelta. El juego terminó!");
             }
         });
 		
