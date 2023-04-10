@@ -2,6 +2,9 @@ package ventanas;
 
 import javax.swing.*;
 import javax.swing.table.*;
+
+import audio.Audio;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
@@ -11,6 +14,7 @@ import java.util.Random;
 import javax.imageio.ImageIO;
 import controladores.VentanaMatrizControlador;
 
+@SuppressWarnings("serial")
 public class VentanaMatriz extends JFrame {
 	public VentanaMatriz() {
 	}
@@ -24,7 +28,7 @@ public class VentanaMatriz extends JFrame {
 	private JLabel[] labelsColumnas;
 	private Integer[] nrosColumnas;
 	private JButton btnSuma;
-//	private JButton volver;
+	private JButton btnReiniciar;
 	private File imagen;
 	private Image icono;
 	private JLabel lblx;
@@ -34,6 +38,7 @@ public class VentanaMatriz extends JFrame {
 	private Date tiempoInicial;
 	private Date tiempoActual;
 	private boolean detenido;
+	private boolean rendirse;
 	Random rand = new Random();
 
 
@@ -74,7 +79,7 @@ public class VentanaMatriz extends JFrame {
 		// Cronometro
 		lblTiempo = new JLabel("0 segundos");
         lblTiempo.setFont(new Font("Tahoma", Font.PLAIN, 20));
-        lblTiempo.setBounds(19, 398, 137, 40);
+        lblTiempo.setBounds(19, 335, 137, 40);
         getContentPane().add(lblTiempo);
         
         tiempoInicial = new Date();
@@ -136,22 +141,22 @@ public class VentanaMatriz extends JFrame {
 		
 		labelsColumnas[0] = new JLabel("");
 		labelsColumnas[0].setFont(new Font("Tahoma", Font.PLAIN, 22));
-		labelsColumnas[0].setBounds(175, 335, 40, 50);
+		labelsColumnas[0].setBounds(165, 335, 40, 50);
 		getContentPane().add(labelsColumnas[0]);
 		
 		labelsColumnas[1] = new JLabel("");
 		labelsColumnas[1].setFont(new Font("Tahoma", Font.PLAIN, 22));
-		labelsColumnas[1].setBounds(235, 335, 40, 50);
+		labelsColumnas[1].setBounds(225, 335, 40, 50);
 		getContentPane().add(labelsColumnas[1]);
 		
 		labelsColumnas[2] = new JLabel("");
 		labelsColumnas[2].setFont(new Font("Tahoma", Font.PLAIN, 22));
-		labelsColumnas[2].setBounds(295, 335, 40, 50);
+		labelsColumnas[2].setBounds(285, 335, 40, 50);
 		getContentPane().add(labelsColumnas[2]);
 		
 		labelsColumnas[3] = new JLabel("");
 		labelsColumnas[3].setFont(new Font("Tahoma", Font.PLAIN, 22));
-		labelsColumnas[3].setBounds(355, 335, 40, 50);
+		labelsColumnas[3].setBounds(345, 335, 40, 50);
 		getContentPane().add(labelsColumnas[3]);
 		
 		nrosFilas = new Integer[4];
@@ -168,75 +173,108 @@ public class VentanaMatriz extends JFrame {
 		
 		btnSuma = new JButton("Sumar");
 		btnSuma.setFont(new Font("Tahoma", Font.BOLD, 16));
-		btnSuma.setBounds(384, 398, 125, 29);
+		btnSuma.setBounds(380, 398, 125, 29);
 		getContentPane().add(btnSuma);
 		
 		btnMeRindo = new JButton("Me rindo!");
 		btnMeRindo.setFont(new Font("Tahoma", Font.BOLD, 16));
-		btnMeRindo.setBounds(244, 398, 125, 29);
+		btnMeRindo.setBounds(240, 398, 125, 29);
 		getContentPane().add(btnMeRindo);
 		
-		/*
-		btnVolver = new JButton("Volver");
-		btnVolver.setFont(new Font("Tahoma", Font.BOLD, 16));
-		btnVolver.setBounds(10, 404, 125, 29);
-		getContentPane().add(btnVolver);
-		*/
+		btnReiniciar = new JButton("Reiniciar");
+		btnReiniciar.setFont(new Font("Tahoma", Font.BOLD, 16));
+		btnReiniciar.setBounds(100, 398, 125, 29);
+		getContentPane().add(btnReiniciar);
 		
 		matriz = new Object[4][4];
 		
 		btnSuma.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				detenido = false;
 				setMatriz(table, matriz);
-				if(VentanaMatrizControlador.noHayVacias(matriz)) {
-					if (VentanaMatrizControlador.sumarFilasyColumnas(matriz, nrosFilas, nrosColumnas)) {
-						JOptionPane.showMessageDialog(null, "Correcto! El juego terminó.");
-					} else {
-						JOptionPane.showMessageDialog(null, "Incorrecto! Volvé a intentarlo.");
-					}
+				if (rendirse) {
+					JOptionPane.showMessageDialog(null, "Ya te rendiste! El juego terminó.");
+					dispose();
 				} else {
-					JOptionPane.showMessageDialog(null, "No pueden haber celdas vacias.");
+					if(VentanaMatrizControlador.noHayVacias(matriz)) {
+						if (VentanaMatrizControlador.sumarFilasyColumnas(matriz, nrosFilas, nrosColumnas)) {
+							detenido = false;
+							Audio.sonidoGano();
+							JOptionPane.showMessageDialog(null, "Correcto! El juego terminó.");
+			            	dispose();
+						} else {
+							JOptionPane.showMessageDialog(null, "Incorrecto! Volvé a intentarlo.");
+						}
+					} else {
+						JOptionPane.showMessageDialog(null, "No pueden haber celdas vacias.");
+					}
 				}
 			}
 		});
 		
 		btnMeRindo.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+            	Audio.sonidoPerdio();
             	detenido = false;
-            	for (int i = 0; i < 4; i++) {
-                    for (int j = 0; j < 4; j++) {
-                        table.setValueAt(matrizResuelta[i][j], i, j);
-                    }
-                }
+            	rendirse = true;
+            	DefaultTableModel model = new DefaultTableModel(matrizResuelta, new String[] {
+						"New column", "New column", "New column", "New column"
+				}) {
+            	    @Override
+            	    public boolean isCellEditable(int row, int column) {
+            	       return false;
+            	    }
+            	};
+            	table.setModel(model);
+            	DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+            	centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+				for (int i = 0; i < table.getColumnCount(); i++) {
+					table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+				}
             	JOptionPane.showMessageDialog(null, "Acá está la matriz resuelta. El juego terminó!");
             }
         });
 		
-		/*
-		btnVolver.addActionListener(new ActionListener() {
+		btnReiniciar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				VentanaMenuControlador.mostrar();
-				dispose();
+				if (rendirse) {
+					JOptionPane.showMessageDialog(null, "Ya te rendiste! El juego terminó.");
+					dispose();
+				} else {
+					matriz = new Object[4][4];
+					DefaultTableModel model = new DefaultTableModel(matriz, new String[] {
+									"New column", "New column", "New column", "New column"});
+					table.setModel(model);
+					reiniciarMatriz(table, matriz);
+					table.getTableHeader().setVisible(false);
+					table.setRowHeight(60);
+					DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+					centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+					for (int i = 0; i < table.getColumnCount(); i++) {
+						table.getColumnModel().getColumn(i).setPreferredWidth(60);
+						table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+					}
+
+					Audio.sonidoBorrar();
+					scrollPane.setColumnHeaderView(table);
+				}
 			}
 		});
-		*/
-
-		 Thread t = new Thread(new Runnable() {
-	            public void run() {
-	                while (detenido) {
-	                    tiempoActual = new Date();
-	                    long tiempoTranscurrido = tiempoActual.getTime() - tiempoInicial.getTime();
-	                    lblTiempo.setText(tiempoTranscurrido / 1000 + " segundos");
-	                    try {
-	                        Thread.sleep(1000);
-	                    } catch (InterruptedException e) {
-	                        e.printStackTrace();
-	                    }
-	                }
-	            }
-	        });
-	        t.start();
+		
+		Thread t = new Thread(new Runnable() {
+			public void run() {
+				while (detenido) {
+					tiempoActual = new Date();
+					long tiempoTranscurrido = tiempoActual.getTime() - tiempoInicial.getTime();
+					lblTiempo.setText(tiempoTranscurrido / 1000 + " segundos");
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		});
+		t.start();
 	}
 
 	public void iniciarMedio() {
@@ -272,7 +310,7 @@ public class VentanaMatriz extends JFrame {
 		// Cronometro
 		lblTiempo = new JLabel("0 segundos");
         lblTiempo.setFont(new Font("Tahoma", Font.PLAIN, 20));
-        lblTiempo.setBounds(19, 458, 137, 40);
+        lblTiempo.setBounds(19, 390, 137, 40);
         getContentPane().add(lblTiempo);
         
         tiempoInicial = new Date();
@@ -340,46 +378,44 @@ public class VentanaMatriz extends JFrame {
 		
 		labelsColumnas[0] = new JLabel("");
 		labelsColumnas[0].setFont(new Font("Tahoma", Font.PLAIN, 22));
-		labelsColumnas[0].setBounds(175, 390, 40, 50);
+		labelsColumnas[0].setBounds(165, 390, 40, 50);
 		getContentPane().add(labelsColumnas[0]);
 		
 		labelsColumnas[1] = new JLabel("");
 		labelsColumnas[1].setFont(new Font("Tahoma", Font.PLAIN, 22));
-		labelsColumnas[1].setBounds(235, 390, 40, 50);
+		labelsColumnas[1].setBounds(225, 390, 40, 50);
 		getContentPane().add(labelsColumnas[1]);
 		
 		labelsColumnas[2] = new JLabel("");
 		labelsColumnas[2].setFont(new Font("Tahoma", Font.PLAIN, 22));
-		labelsColumnas[2].setBounds(295, 390, 40, 50);
+		labelsColumnas[2].setBounds(285, 390, 40, 50);
 		getContentPane().add(labelsColumnas[2]);
 		
 		labelsColumnas[3] = new JLabel("");
 		labelsColumnas[3].setFont(new Font("Tahoma", Font.PLAIN, 22));
-		labelsColumnas[3].setBounds(355, 390, 40, 50);
+		labelsColumnas[3].setBounds(345, 390, 40, 50);
 		getContentPane().add(labelsColumnas[3]);
 		
 		labelsColumnas[4] = new JLabel("");
 		labelsColumnas[4].setFont(new Font("Tahoma", Font.PLAIN, 22));
-		labelsColumnas[4].setBounds(415, 390, 40, 50);
+		labelsColumnas[4].setBounds(405, 390, 40, 50);
 		getContentPane().add(labelsColumnas[4]);
 		
 		btnSuma = new JButton("Sumar");
 		btnSuma.setFont(new Font("Tahoma", Font.BOLD, 16));
-		btnSuma.setBounds(444, 458, 125, 29);
+		btnSuma.setBounds(440, 458, 125, 29);
 		getContentPane().add(btnSuma);
 
 		btnMeRindo = new JButton("Me rindo!");
 		btnMeRindo.setFont(new Font("Tahoma", Font.BOLD, 16));
-		btnMeRindo.setBounds(304, 458, 125, 29);
+		btnMeRindo.setBounds(300, 458, 125, 29);
 		getContentPane().add(btnMeRindo);
 		
-		/*
-		btnVolver = new JButton("Volver");
-		btnVolver.setFont(new Font("Tahoma", Font.BOLD, 16));
-		btnVolver.setBounds(10, 404, 125, 29);
-		getContentPane().add(btnVolver);
-		*/
-		
+		btnReiniciar = new JButton("Reiniciar");
+		btnReiniciar.setFont(new Font("Tahoma", Font.BOLD, 16));
+		btnReiniciar.setBounds(160, 458, 125, 29);
+		getContentPane().add(btnReiniciar);
+	
 		nrosFilas = new Integer[5];
 		nrosColumnas = new Integer[5];
 		
@@ -396,56 +432,88 @@ public class VentanaMatriz extends JFrame {
 		
 		btnSuma.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				detenido = false;
 				setMatriz(table, matriz);
-				if(VentanaMatrizControlador.noHayVacias(matriz)) {
-					if (VentanaMatrizControlador.sumarFilasyColumnas(matriz, nrosFilas, nrosColumnas)) {
-						JOptionPane.showMessageDialog(null, "Correcto! El juego terminó.");
-					} else {
-						JOptionPane.showMessageDialog(null, "Incorrecto! Volvé a intentarlo.");
-					}
+				if (rendirse) {
+					JOptionPane.showMessageDialog(null, "Ya te rendiste! El juego terminó.");
+					dispose();
 				} else {
-					JOptionPane.showMessageDialog(null, "No pueden haber celdas vacias.");
+					if(VentanaMatrizControlador.noHayVacias(matriz)) {
+						if (VentanaMatrizControlador.sumarFilasyColumnas(matriz, nrosFilas, nrosColumnas)) {
+							detenido = false;
+							Audio.sonidoGano();
+							JOptionPane.showMessageDialog(null, "Correcto! El juego terminó.");
+			            	dispose();
+						} else {
+							JOptionPane.showMessageDialog(null, "Incorrecto! Volvé a intentarlo.");
+						}
+					} else {
+						JOptionPane.showMessageDialog(null, "No pueden haber celdas vacias.");
+					}
 				}
 			}
 		});
 		
 		btnMeRindo.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+            	Audio.sonidoPerdio();
             	detenido = false;
-            	for (int i = 0; i < 4; i++) {
-                    for (int j = 0; j < 4; j++) {
-                        table.setValueAt(matrizResuelta[i][j], i, j);
-                    }
-                }
+            	rendirse = true;
+            	DefaultTableModel model = new DefaultTableModel(matrizResuelta, new String[] {
+						"New column", "New column", "New column", "New column", "New column"
+				}) {
+            	    @Override
+            	    public boolean isCellEditable(int row, int column) {
+            	       return false;
+            	    }
+            	};
+            	table.setModel(model);
+            	DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+            	centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+				for (int i = 0; i < table.getColumnCount(); i++) {
+					table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+				}
             	JOptionPane.showMessageDialog(null, "Acá está la matriz resuelta. El juego terminó!");
             }
         });
 		
-		/*
-		btnVolver.addActionListener(new ActionListener() {
+		btnReiniciar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				VentanaMenuControlador.mostrar();
-				dispose();
+				if (rendirse) {
+					JOptionPane.showMessageDialog(null, "Ya te rendiste! El juego terminó.");
+					dispose();
+				} else {
+					matriz = new Object[5][5];
+					DefaultTableModel model = new DefaultTableModel(matriz, new String[] {
+							"New column", "New column", "New column", "New column", "New column"});
+					table.setModel(model);
+					reiniciarMatriz(table, matriz);
+					DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+					centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+					for (int i = 0; i < table.getColumnCount(); i++) {
+						table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+					}
+
+					Audio.sonidoBorrar();
+					scrollPane.setColumnHeaderView(table);
+				}
 			}
 		});
-		*/
 
-		 Thread t = new Thread(new Runnable() {
-	            public void run() {
-	                while (detenido) {
-	                    tiempoActual = new Date();
-	                    long tiempoTranscurrido = tiempoActual.getTime() - tiempoInicial.getTime();
-	                    lblTiempo.setText(tiempoTranscurrido / 1000 + " segundos");
-	                    try {
-	                        Thread.sleep(1000);
-	                    } catch (InterruptedException e) {
-	                        e.printStackTrace();
-	                    }
-	                }
-	            }
-	        });
-	        t.start();
+		Thread t = new Thread(new Runnable() {
+			public void run() {
+				while (detenido) {
+					tiempoActual = new Date();
+					long tiempoTranscurrido = tiempoActual.getTime() - tiempoInicial.getTime();
+					lblTiempo.setText(tiempoTranscurrido / 1000 + " segundos");
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		});
+		t.start();
 	}
 
 	public void iniciarDificil() {
@@ -481,7 +549,7 @@ public class VentanaMatriz extends JFrame {
 		// Cronometro
 		lblTiempo = new JLabel("0 segundos");
         lblTiempo.setFont(new Font("Tahoma", Font.PLAIN, 20));
-        lblTiempo.setBounds(19, 518, 137, 40);
+        lblTiempo.setBounds(19, 450, 137, 40);
         getContentPane().add(lblTiempo);
         
         tiempoInicial = new Date();
@@ -554,37 +622,37 @@ public class VentanaMatriz extends JFrame {
 		
 		labelsColumnas[0] = new JLabel("");
 		labelsColumnas[0].setFont(new Font("Tahoma", Font.PLAIN, 22));
-		labelsColumnas[0].setBounds(175, 450, 40, 50);
+		labelsColumnas[0].setBounds(165, 450, 40, 50);
 		getContentPane().add(labelsColumnas[0]);
 		
 		labelsColumnas[1] = new JLabel("");
 		labelsColumnas[1].setFont(new Font("Tahoma", Font.PLAIN, 22));
-		labelsColumnas[1].setBounds(235, 450, 40, 50);
+		labelsColumnas[1].setBounds(225, 450, 40, 50);
 		getContentPane().add(labelsColumnas[1]);
 		
 		labelsColumnas[2] = new JLabel("");
 		labelsColumnas[2].setFont(new Font("Tahoma", Font.PLAIN, 22));
-		labelsColumnas[2].setBounds(295, 450, 40, 50);
+		labelsColumnas[2].setBounds(285, 450, 40, 50);
 		getContentPane().add(labelsColumnas[2]);
 		
 		labelsColumnas[3] = new JLabel("");
 		labelsColumnas[3].setFont(new Font("Tahoma", Font.PLAIN, 22));
-		labelsColumnas[3].setBounds(355, 450, 40, 50);
+		labelsColumnas[3].setBounds(345, 450, 40, 50);
 		getContentPane().add(labelsColumnas[3]);
 		
 		labelsColumnas[4] = new JLabel("");
 		labelsColumnas[4].setFont(new Font("Tahoma", Font.PLAIN, 22));
-		labelsColumnas[4].setBounds(415, 450, 40, 50);
+		labelsColumnas[4].setBounds(405, 450, 40, 50);
 		getContentPane().add(labelsColumnas[4]);
 		
 		labelsColumnas[5] = new JLabel("");
 		labelsColumnas[5].setFont(new Font("Tahoma", Font.PLAIN, 22));
-		labelsColumnas[5].setBounds(475, 450, 40, 50);
+		labelsColumnas[5].setBounds(465, 450, 40, 50);
 		getContentPane().add(labelsColumnas[5]);
 		
 		btnSuma = new JButton("Sumar");
 		btnSuma.setFont(new Font("Tahoma", Font.BOLD, 16));
-		btnSuma.setBounds(504, 518, 125, 29);
+		btnSuma.setBounds(500, 518, 125, 29);
 		getContentPane().add(btnSuma);
 		
 		btnMeRindo = new JButton("Me rindo!");
@@ -592,13 +660,10 @@ public class VentanaMatriz extends JFrame {
 		btnMeRindo.setBounds(360, 518, 125, 29);
 		getContentPane().add(btnMeRindo);
 		
-		/*
-		btnVolver = new JButton("Volver");
-		btnVolver.setFont(new Font("Tahoma", Font.BOLD, 16));
-		btnVolver.setBounds(10, 404, 125, 29);
-		getContentPane().add(btnVolver);
-		*/
-
+		btnReiniciar = new JButton("Reiniciar");
+		btnReiniciar.setFont(new Font("Tahoma", Font.BOLD, 16));
+		btnReiniciar.setBounds(220, 518, 125, 29);
+		getContentPane().add(btnReiniciar);
 		
 		nrosFilas = new Integer[6];
 		nrosColumnas = new Integer[6];
@@ -616,56 +681,88 @@ public class VentanaMatriz extends JFrame {
 		
 		btnSuma.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				detenido = false;
 				setMatriz(table, matriz);
-				if(VentanaMatrizControlador.noHayVacias(matriz)) {
-					if (VentanaMatrizControlador.sumarFilasyColumnas(matriz, nrosFilas, nrosColumnas)) {
-						JOptionPane.showMessageDialog(null, "Correcto! El juego terminó.");
-					} else {
-						JOptionPane.showMessageDialog(null, "Incorrecto! Volvé a intentarlo.");
-					}
+				if (rendirse) {
+					JOptionPane.showMessageDialog(null, "Ya te rendiste! El juego terminó.");
+					dispose();
 				} else {
-					JOptionPane.showMessageDialog(null, "No pueden haber celdas vacias.");
+					if(VentanaMatrizControlador.noHayVacias(matriz)) {
+						if (VentanaMatrizControlador.sumarFilasyColumnas(matriz, nrosFilas, nrosColumnas)) {
+							detenido = false;
+							Audio.sonidoGano();
+							JOptionPane.showMessageDialog(null, "Correcto! El juego terminó.");
+			            	dispose();
+						} else {
+							JOptionPane.showMessageDialog(null, "Incorrecto! Volvé a intentarlo.");
+						}
+					} else {
+						JOptionPane.showMessageDialog(null, "No pueden haber celdas vacias.");
+					}
 				}
 			}
 		});
 		
 		btnMeRindo.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+            	Audio.sonidoPerdio();
             	detenido = false;
-            	for (int i = 0; i < 4; i++) {
-                    for (int j = 0; j < 4; j++) {
-                        table.setValueAt(matrizResuelta[i][j], i, j);
-                    }
-                }
+            	rendirse = true;
+            	DefaultTableModel model = new DefaultTableModel(matrizResuelta, new String[] {
+						"New column", "New column", "New column", "New column", "New column", "New columns"
+				}) {
+            	    @Override
+            	    public boolean isCellEditable(int row, int column) {
+            	       return false;
+            	    }
+            	};
+            	table.setModel(model);
+            	DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+            	centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+				for (int i = 0; i < table.getColumnCount(); i++) {
+					table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+				}
             	JOptionPane.showMessageDialog(null, "Acá está la matriz resuelta. El juego terminó!");
             }
         });
-		
-		/*
-		btnVolver.addActionListener(new ActionListener() {
+
+		btnReiniciar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				VentanaMenuControlador.mostrar();
-				dispose();
+				if (rendirse) {
+					JOptionPane.showMessageDialog(null, "Ya te rendiste! El juego terminó.");
+					dispose();
+				} else {
+					matriz = new Object[6][6];
+					DefaultTableModel model = new DefaultTableModel(matriz, new String[] { 
+							"New column", "New column", "New column", "New column", "New column", "New columns"});
+					table.setModel(model);
+					reiniciarMatriz(table, matriz);
+					DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+					centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+					for (int i = 0; i < table.getColumnCount(); i++) {
+						table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+					}
+					
+					Audio.sonidoBorrar();
+					scrollPane.setColumnHeaderView(table);
+				}
 			}
 		});
-		*/
 
-		 Thread t = new Thread(new Runnable() {
-	            public void run() {
-	                while (detenido) {
-	                    tiempoActual = new Date();
-	                    long tiempoTranscurrido = tiempoActual.getTime() - tiempoInicial.getTime();
-	                    lblTiempo.setText(tiempoTranscurrido / 1000 + " segundos");
-	                    try {
-	                        Thread.sleep(1000);
-	                    } catch (InterruptedException e) {
-	                        e.printStackTrace();
-	                    }
-	                }
-	            }
-	        });
-	        t.start();
+		Thread t = new Thread(new Runnable() {
+			public void run() {
+				while (detenido) {
+					tiempoActual = new Date();
+					long tiempoTranscurrido = tiempoActual.getTime() - tiempoInicial.getTime();
+					lblTiempo.setText(tiempoTranscurrido / 1000 + " segundos");
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		});
+		t.start();
 	}
 	
 	public static void setNrosFilas(JLabel[] labelsFilas, Integer[] nrosFilas) {
@@ -693,4 +790,15 @@ public class VentanaMatriz extends JFrame {
 			}
 		}
 	}
+	public static void reiniciarMatriz(JTable tabla, Object[][] matriz)
+	{
+		int nroFilas = tabla.getRowCount();
+		int nroColumnas = tabla.getColumnCount();
+		for (int i = 0; i<nroFilas; i++) {
+			for (int j = 0; j<nroColumnas; j++) {
+				matriz[i][j] = null;
+			}
+		}
+	}
+
 }

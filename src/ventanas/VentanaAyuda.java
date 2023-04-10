@@ -11,23 +11,20 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
+import audio.Audio;
 import controladores.VentanaMenuControlador;
 import java.awt.Font;
 import javax.swing.JTextArea;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 @SuppressWarnings("serial")
 public class VentanaAyuda extends JFrame{
-	public VentanaAyuda() {
-	}
-
 	private File imagen;
 	private Image icono;
 	private JTextArea textAreaTexto;
+	private JLabel lblImagen;
 	
-	/**
-	 * Create the application.
-	 */
 	public void iniciar() {
 		getContentPane().setBackground(new Color(163, 200, 211));
 		setBounds(100, 100, 550, 490);
@@ -53,6 +50,12 @@ public class VentanaAyuda extends JFrame{
 		lblComoJugar.setBounds(0, 0, 534, 78);
 		getContentPane().add(lblComoJugar);
 		
+		lblImagen = new JLabel("");
+		lblImagen.setHorizontalAlignment(SwingConstants.CENTER);
+		lblImagen.setIcon(new ImageIcon("imagenes\\ejemplo.png"));
+		lblImagen.setBounds(0, 170, 532, 300);
+		getContentPane().add(lblImagen);
+
 		textAreaTexto = new JTextArea();
 		textAreaTexto.setForeground(new Color(255, 255, 255));
 		textAreaTexto.setFont(new Font("Tahoma", Font.PLAIN, 20));
@@ -62,6 +65,7 @@ public class VentanaAyuda extends JFrame{
 		textAreaTexto.setBounds(58, 71, 466, 258);
 		getContentPane().add(textAreaTexto);
 		
+		
 		JButton btnVolver = new JButton("Volver");
 		btnVolver.setFont(new Font("Tahoma", Font.BOLD, 16));
 		btnVolver.setBounds(10, 404, 125, 29);
@@ -69,6 +73,7 @@ public class VentanaAyuda extends JFrame{
 		
 		btnVolver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				Audio.sonidoClick();
 				VentanaMenuControlador.mostrar();
 				dispose();
 			}

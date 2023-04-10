@@ -2,11 +2,10 @@ package ventanas;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-
+import audio.Audio;
 import controladores.VentanaAyudaControlador;
 import controladores.VentanaMatrizControlador;
 import sistema.Dificultad;
-
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
@@ -21,18 +20,12 @@ public class VentanaMenu extends JFrame {
 	private JButton btnDificil;
 	private JButton btnAyuda;
 	private JLabel lblNombres;
-	private JButton btnRanking;
 	private JLabel lblImagen;
 	private File imagen;
 	private Image icono;
-
-	/**
-	 * Create the application.
-	 */
+	
 	public VentanaMenu() {
-		/**
-		 * Initialize the contents of the frame.
-		 */
+		Audio.sonidoInicio();
 		getContentPane().setBackground(new Color(163, 200, 211));
 		setBounds(100, 100, 550, 490);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -72,23 +65,18 @@ public class VentanaMenu extends JFrame {
 
 		btnFacil = new JButton("F\u00E1cil");
 		btnFacil.setFont(new Font("Tahoma", Font.BOLD, 16));
-		btnFacil.setBounds(202, 225, 125, 29);
+		btnFacil.setBounds(202, 259, 125, 29);
 		getContentPane().add(btnFacil);
 
 		btnMedio = new JButton("Medio");
 		btnMedio.setFont(new Font("Tahoma", Font.BOLD, 16));
-		btnMedio.setBounds(202, 265, 125, 29);
+		btnMedio.setBounds(202, 299, 125, 29);
 		getContentPane().add(btnMedio);
 
 		btnDificil = new JButton("Dif\u00EDcil");
 		btnDificil.setFont(new Font("Tahoma", Font.BOLD, 16));
-		btnDificil.setBounds(202, 305, 125, 29);
+		btnDificil.setBounds(202, 339, 125, 29);
 		getContentPane().add(btnDificil);
-
-		btnRanking = new JButton("Ranking");
-		btnRanking.setFont(new Font("Tahoma", Font.BOLD, 16));
-		btnRanking.setBounds(202, 345, 125, 29);
-		getContentPane().add(btnRanking);
 
 		btnAyuda = new JButton("");
 		btnAyuda.setIcon(new ImageIcon("imagenes\\pregunta1.png"));
@@ -100,9 +88,17 @@ public class VentanaMenu extends JFrame {
 		lblNombres.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblNombres.setBounds(346, 416, 178, 22);
 		getContentPane().add(lblNombres);
+		
+		JLabel lblSelec = new JLabel("Seleccione una dificultad");
+		lblSelec.setHorizontalAlignment(SwingConstants.CENTER);
+		lblSelec.setForeground(Color.WHITE);
+		lblSelec.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblSelec.setBounds(0, 219, 532, 29);
+		getContentPane().add(lblSelec);
 
 		btnFacil.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				Audio.sonidoClick();
 				VentanaMatrizControlador.setDificultad(Dificultad.FACIL);
 				dispose();
 			}
@@ -110,6 +106,7 @@ public class VentanaMenu extends JFrame {
 		
 		btnMedio.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				Audio.sonidoClick();
 				VentanaMatrizControlador.setDificultad(Dificultad.MEDIO);
 				dispose();
 			}
@@ -117,6 +114,7 @@ public class VentanaMenu extends JFrame {
 		
 		btnDificil.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				Audio.sonidoClick();
 				VentanaMatrizControlador.setDificultad(Dificultad.DIFICIL);
 				dispose();
 			}
@@ -124,6 +122,7 @@ public class VentanaMenu extends JFrame {
 		
 		btnAyuda.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				Audio.sonidoClick();
 				VentanaAyudaControlador.mostrar();
 				dispose();
 			}
