@@ -1,8 +1,5 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Java MVP Pattern Game</title>
-  </head>
   <body>
     <h1>Java MVP Pattern Game</h1>
     <p>This program follows the Model-View-Presenter (MVP) design pattern in Java, which allows for greater separation of application logic from the graphical user interface (GUI). The GUI is composed of three classes: a menu window, a matrix window, and a help window. The menu window presents three difficulty options for the user to choose from, and a help button. The matrix window displays a matrix of 4x4, 5x5, or 6x6 according to the difficulty chosen by the user. The help window provides information (in Spanish) on how to play the game and the rules that must be followed.</p>
